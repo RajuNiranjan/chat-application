@@ -9,10 +9,10 @@ const NavBar = () => {
   const pathName = usePathname();
 
   return (
-    <nav className="h-14 w-full shadow-lg flex items-center justify-between px-40">
+    <nav className="h-20 w-full shadow-lg flex items-center justify-between sticky top-0 z-50 bg-white">
       <div className="flex items-center gap-4">
         <div>
-          <Link href="/" className="font-bold text-xl tracking-wider ">
+          <Link href="/" className="font-bold text-xl tracking-wider">
             <span>
               T<span className="text-red-500">RE</span>ND
             </span>
@@ -26,7 +26,7 @@ const NavBar = () => {
       </div>
 
       <div className="flex gap-4 items-center">
-        <form className="flex gap-2 items-center border bg-gray-100 p-2 rounded-lg ">
+        <form className="flex gap-2 items-center border bg-gray-100 p-2 rounded-lg">
           <input
             type="text"
             name="navSearchInput"
