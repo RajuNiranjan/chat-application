@@ -42,12 +42,10 @@ const LogIn = () => {
       const data = res.data;
       dispatch(AuthSuccess(data));
       console.log(data);
-      // navigate("/");
+      navigate("/profile");
       setLogInForm({ email: "", password: "" });
     } catch (error) {
       console.log(error);
-
-      // dispatch(AuthFailure(error));
     }
   };
 
