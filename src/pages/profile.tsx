@@ -2,6 +2,7 @@ import { useState, ChangeEvent, FormEvent } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileProp {
   userName: string;
@@ -13,6 +14,8 @@ const Profile = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
 
   const user = currentUser.user;
+
+  const navigate = useNavigate();
 
   const [profileForm, setProfileForm] = useState<ProfileProp>({
     userName: user.userName,
@@ -48,8 +51,20 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const userID = user._id;
+    try {
+      const res = await axios.delete(`/api/auth/deleteuser/${userID}`);
+      const data = res.data;
+      navigate("/login");
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex flex-col gap-4 justify-center items-center h-screen">
       <form
         onSubmit={handleSubmitProfileForm}
         className="border w-[450px] p-4 shadow-lg bg-white rounded-lg flex flex-col gap-4"
@@ -97,6 +112,12 @@ const Profile = () => {
           Update profile
         </button>
       </form>
+      <div className="flex justify-between items-center w-[450px]">
+        <small className="cursor-pointer" onClick={handleDeleteAccount}>
+          Delete Account
+        </small>
+        <small>Log out</small>
+      </div>
     </div>
   );
 };
