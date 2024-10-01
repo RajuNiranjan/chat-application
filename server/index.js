@@ -4,6 +4,7 @@ import cors from "cors";
 import "./db/connectDB.js";
 import { AuthRoute } from "./routes/auth.route.js";
 import { UserRoute } from "./routes/user.route.js";
+import { MessageRouter } from "./routes/message.route.js";
 
 const app = express();
 const PORT = ENV_VAR.PORT;
@@ -27,5 +28,6 @@ app.get("/api/", (req, res) => {
 
 app.use("/api/auth", AuthRoute);
 app.use("/api", UserRoute);
+app.use("/api/message", MessageRouter);
 
 app.listen(PORT, () => console.log(`server is running at port no: ${PORT}`));
