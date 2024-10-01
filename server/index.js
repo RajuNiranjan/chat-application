@@ -3,6 +3,7 @@ import { ENV_VAR } from "./config/EnvVar.js";
 import cors from "cors";
 import "./db/connectDB.js";
 import { AuthRoute } from "./routes/auth.route.js";
+import { UserRoute } from "./routes/user.route.js";
 
 const app = express();
 const PORT = ENV_VAR.PORT;
@@ -25,5 +26,6 @@ app.get("/api/", (req, res) => {
 });
 
 app.use("/api/auth", AuthRoute);
+app.use("/api", UserRoute);
 
 app.listen(PORT, () => console.log(`server is running at port no: ${PORT}`));
