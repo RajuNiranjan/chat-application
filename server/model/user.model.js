@@ -7,7 +7,7 @@ const userSchema = new Schema(
     userName: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     gender: { type: String, required: true, enum: Object.values(GENDER) },
-    profilePIc: { type: String, default: "https://profilepic.com/men" },
+    profilePic: { type: String, default: "" },
   },
   { timestamps: true }
 );

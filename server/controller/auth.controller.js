@@ -16,11 +16,17 @@ export const SignUp = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
+    const profilePic =
+      gender === "male"
+        ? `https://avatar.iran.liara.run/public/boy?username=${userName}`
+        : `https://avatar.iran.liara.run/public/girl?username=${userName}`;
+
     const newUser = new UserModel({
       fullName,
       userName,
       gender,
       password: hashPassword,
+      profilePic,
     });
 
     await newUser.save();
@@ -31,7 +37,7 @@ export const SignUp = async (req, res) => {
       .status(201)
       .json({ message: "User Signup successfully", token: token });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res
       .status(500)
       .json({ message: "Internal server error during sign up" });
