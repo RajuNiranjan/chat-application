@@ -21,3 +21,18 @@ export const Me = async (req, res) => {
       .json({ message: "Internal server error during Getting user" });
   }
 };
+
+export const AllUsers = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const filterUSer = await UserModel.find({ _id: { $ne: userId } }).select(
+      "-password"
+    );
+    return res.status(200).json({ allUsers: filterUSer });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Internal server error during Getting user" });
+  }
+};
