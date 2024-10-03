@@ -1,13 +1,13 @@
 import mongoose, { Schema } from "mongoose";
-import { GENDER } from "../config/enums.js";
+import { GENDER } from "../utils/enum.js";
 
 const userSchema = new Schema(
   {
-    fullName: { type: String, required: true },
     userName: { type: String, required: true, unique: true },
+    fullName: { type: String, required: true },
     password: { type: String, required: true },
-    gender: { type: String, required: true, enum: Object.values(GENDER) },
-    profilePic: { type: String, default: "" },
+    gender: { type: String, required: true, enum: GENDER },
+    profilePic: { type: String, required: true, default: "" },
   },
   { timestamps: true }
 );
