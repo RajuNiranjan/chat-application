@@ -50,7 +50,7 @@ export const GetConversation = async (req, res) => {
 
     const conversation = await ConversationModel.findOne({
       members: { $all: [senderId, receiverId] },
-    });
+    }).populate("messages");
 
     if (!conversation) {
       return res.status(200).json([]);
