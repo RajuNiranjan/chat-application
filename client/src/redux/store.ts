@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import AuthReducer from "./reducers/auth.reducer";
+import allUsersReducer from "./reducers/allUsers.reducer";
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
+  users: allUsersReducer,
 });
 
 export const store = configureStore({
