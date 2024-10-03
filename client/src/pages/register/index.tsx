@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useRegister } from "@/hooks/useRegister.hook";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -21,6 +22,7 @@ const Register = () => {
     gender: "",
   });
 
+  const { register } = useRegister();
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, id } = e.target;
     setInput((prev) => ({
@@ -29,9 +31,10 @@ const Register = () => {
     }));
   };
 
-  const handelSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+  const handelSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login form", input);
+    // console.log("register form", input);
+    await register(input);
   };
 
   return (
