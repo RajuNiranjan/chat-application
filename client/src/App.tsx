@@ -9,44 +9,36 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useEffect } from "react";
-import { fetchUser } from "./redux/reducers/auth.reducer";
+import { fetchUser, authSuccess } from "./redux/reducers/auth.reducer";
 import { AppDispatch, RootState } from "./redux/store";
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
-  console.log("user", user);
+  const { user, token } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(fetchUser(token));
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      dispatch(authSuccess(token));
+      dispatch(fetchUser(storedToken));
     }
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={user ? <Home /> : <Navigate to="/login" />}
-          />
-
-          <Route
-            path="/login"
-            element={!user ? <LogIn /> : <Navigate to="/" />}
-          />
-
-          <Route
-            path="/register"
-            element={!user ? <Register /> : <Navigate to="/" />}
-          />
-
-          <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
+        <Route
+          path="/login"
+          element={!user ? <LogIn /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/" />}
+        />
+        <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
+      </Routes>
+    </Router>
   );
 };
 

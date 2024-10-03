@@ -31,7 +31,6 @@ const LogIn = () => {
 
   const handelSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login form", input);
     login(input);
   };
 

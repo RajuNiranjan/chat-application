@@ -26,9 +26,9 @@ export const useLogIn = () => {
         userName,
         password,
       });
+      navigate("/");
       localStorage.setItem("token", res.data.token);
       dispatch(authSuccess(res.data.token));
-      navigate("/");
     } catch (error) {
       console.log(error);
       dispatch(authFailure((error as Error).message));

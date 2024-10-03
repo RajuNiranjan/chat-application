@@ -33,7 +33,6 @@ const Register = () => {
 
   const handelSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log("register form", input);
     await register(input);
   };
 
