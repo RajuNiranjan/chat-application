@@ -5,59 +5,45 @@ import {
 } from "@/redux/reducers/auth.reducer";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "./use-toast";
 import { useNavigate } from "react-router-dom";
 
-interface RegisterProps {
-  fullName: string;
+interface LogInProps {
   userName: string;
-  gender: string;
   password: string;
 }
 
-export const useRegister = () => {
+export const useLogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const register = async ({
-    fullName,
-    userName,
-    gender,
-    password,
-  }: RegisterProps) => {
-    if (!handleFieldError({ fullName, userName, gender, password })) return;
-
+  const login = async ({ userName, password }: LogInProps) => {
+    const success = handleInputErrors({ userName, password });
+    if (!success) return;
     dispatch(authStart());
     try {
-      const res = await axios.post(`/api/auth/register`, {
-        fullName,
+      const res = await axios.post("/api/auth/login", {
         userName,
         password,
-        gender,
       });
       localStorage.setItem("token", res.data.token);
       dispatch(authSuccess(res.data.token));
       navigate("/");
     } catch (error) {
+      console.log(error);
       dispatch(authFailure((error as Error).message));
     }
   };
 
-  return { register };
+  return { login };
 };
 
-const handleFieldError = ({
-  fullName,
-  userName,
-  password,
-  gender,
-}: RegisterProps) => {
-  if (!fullName || !userName || !password || !gender) {
+const handleInputErrors = ({ userName, password }: LogInProps) => {
+  if (!userName || !password) {
     toast({
-      title: "All fields are required",
+      title: "All fileds are required",
       duration: 1000,
     });
-    return false;
   }
   return true;
 };

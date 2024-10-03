@@ -39,7 +39,7 @@ const Register = () => {
 
   return (
     <div className="h-[100vh] w-full flex justify-center items-center font-bold text-white ">
-      <Card className="bg-transparent text-white w-[100%] max-w-[90%] sm:max-w-[60%] backdrop-filter backdrop-blur-sm shadow-md">
+      <Card className="bg-transparent text-white w-[100%] max-w-[90%] sm:max-w-[30%] backdrop-filter backdrop-blur-sm shadow-md">
         <CardHeader>
           <CardTitle className="text-center text-4xl">REGISTER</CardTitle>
         </CardHeader>
@@ -82,8 +82,7 @@ const Register = () => {
                 onValueChange={(value) =>
                   setInput((prev) => ({ ...prev, gender: value }))
                 }
-                className="flex gap-4"
-              >
+                className="flex gap-4">
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem
                     value="Male"
@@ -106,8 +105,7 @@ const Register = () => {
           <CardFooter className="flex flex-col gap-2">
             <Button
               type="submit"
-              className="w-full bg-sky-500 hover:bg-sky-600 transition-all duration-500"
-            >
+              className="w-full bg-sky-500 hover:bg-sky-600 transition-all duration-500">
               REGISTER
             </Button>
             <div>

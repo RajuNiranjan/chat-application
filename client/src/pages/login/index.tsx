@@ -11,12 +11,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLogIn } from "@/hooks/useLogIn.hook";
 
 const LogIn = () => {
   const [input, setInput] = useState({
     userName: "",
     password: "",
   });
+
+  const { login } = useLogIn();
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, id } = e.target;
@@ -29,11 +32,12 @@ const LogIn = () => {
   const handelSubmitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Login form", input);
+    login(input);
   };
 
   return (
     <div className="h-[100vh] w-full flex justify-center items-center font-bold text-white ">
-      <Card className="bg-transparent text-white w-[100%] max-w-[90%] sm:max-w-[60%] backdrop-filter backdrop-blur-sm shadow-md">
+      <Card className="bg-transparent text-white w-[100%] max-w-[90%] sm:max-w-[30%] backdrop-filter backdrop-blur-sm shadow-md">
         <CardHeader>
           <CardTitle className="text-center text-4xl">LOGIN</CardTitle>
         </CardHeader>
@@ -63,8 +67,7 @@ const LogIn = () => {
           <CardFooter className="flex flex-col gap-2">
             <Button
               type="submit"
-              className="w-full bg-sky-500 hover:bg-sky-600 transition-all duration-500"
-            >
+              className="w-full bg-sky-500 hover:bg-sky-600 transition-all duration-500">
               LOGIN
             </Button>
             <div>
