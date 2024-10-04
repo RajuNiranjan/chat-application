@@ -39,8 +39,16 @@ const UserSlice = createSlice({
     selectedUser: (state, action: PayloadAction<string>) => {
       state.selectedUserId = action.payload;
     },
+    unSelectedUser: (state) => {
+      state.selectedUserId = null;
+    },
   },
 });
-export const { userFailure, userStart, userSuccess, selectedUser } =
-  UserSlice.actions;
+export const {
+  userFailure,
+  userStart,
+  userSuccess,
+  selectedUser,
+  unSelectedUser,
+} = UserSlice.actions;
 export default UserSlice.reducer;

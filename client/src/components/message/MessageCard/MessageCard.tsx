@@ -12,6 +12,7 @@ import { LogOut } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedUser } from "@/redux/reducers/allUsers.reducer";
+import ChatSkeleton from "@/skeleton/chat.skeleton";
 
 const MessageCard = () => {
   const { logOut } = useLogOut();
@@ -20,9 +21,11 @@ const MessageCard = () => {
     logOut();
   };
 
-  const { users, selectedUserId: slectId } = useSelector(
-    (state: RootState) => state.users
-  );
+  const {
+    users,
+    selectedUserId: slectId,
+    loading,
+  } = useSelector((state: RootState) => state.users);
   const { user } = useSelector((state: RootState) => state.auth);
   const token = localStorage.getItem("token");
 
@@ -44,24 +47,26 @@ const MessageCard = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="h-full p-1 space-y-2  overflow-auto">
-        {users?.map((users, idx) => (
-          <div
-            key={idx}
-            onClick={() => selectedUserId(users._id)}
-            className={`flex w-full hover:bg-sky-500 ${
-              slectId === users._id ? "bg-sky-500" : ""
-            } transition-all   duration-300 rounded-lg p-2 gap-2 cursor-pointer`}
-          >
-            <div>
-              <img
-                src={users?.profilePic}
-                alt="uses_pic"
-                className="w-10 h-10 rounded-full"
-              />
-            </div>
-            <div>{users?.userName}</div>
-          </div>
-        ))}
+        {loading
+          ? [...Array(10)].map((_, idx) => <ChatSkeleton key={idx} />)
+          : users?.map((users, idx) => (
+              <div
+                key={idx}
+                onClick={() => selectedUserId(users._id)}
+                className={`flex w-full hover:bg-sky-500 ${
+                  slectId === users._id ? "bg-sky-500" : ""
+                } transition-all   duration-300 rounded-lg p-2 gap-2 cursor-pointer`}
+              >
+                <div>
+                  <img
+                    src={users?.profilePic}
+                    alt="uses_pic"
+                    className="w-10 h-10 rounded-full"
+                  />
+                </div>
+                <div>{users?.userName}</div>
+              </div>
+            ))}
       </CardContent>
       <CardFooter className="flex justify-end">
         <LogOut onClick={handleLogOut} className="cursor-pointer " />
