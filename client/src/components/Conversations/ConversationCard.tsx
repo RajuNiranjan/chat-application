@@ -11,7 +11,11 @@ import { RootState } from "@/redux/store";
 import ConversationChat from "./conversationChat";
 
 const ConversationCard = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { selectedUserId, users } = useSelector(
+    (state: RootState) => state.users
+  );
+
+  const selectedUserData = users?.find((user) => user._id === selectedUserId);
 
   return (
     <Card className="w-full h-full bg-transparent border-none shadow-none  text- flex flex-col ">
@@ -19,10 +23,14 @@ const ConversationCard = () => {
         <CardTitle>
           <div className="flex items-center gap-2">
             <div>
-              <img src={user?.profilePic} alt="user_pic" className="w-7 h-7" />
+              <img
+                src={selectedUserData?.profilePic}
+                alt="user_pic"
+                className="w-7 h-7"
+              />
             </div>
             <div>
-              <h1>{user?.userName}</h1>
+              <h1>{selectedUserData?.userName}</h1>
               <small>last seen 08:59 pm</small>
             </div>
           </div>
