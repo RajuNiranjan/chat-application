@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -21,7 +20,10 @@ const MessageCard = () => {
     logOut();
   };
 
-  const { users } = useSelector((state: RootState) => state.users);
+  const { users, selectedUserId: slectId } = useSelector(
+    (state: RootState) => state.users
+  );
+  const { user } = useSelector((state: RootState) => state.auth);
   const token = localStorage.getItem("token");
 
   const { fetchAllUser } = useFetchAllUsers();
@@ -37,15 +39,18 @@ const MessageCard = () => {
   return (
     <Card className="w-full h-full bg-transparent border border-r shadow-lg  text- flex flex-col ">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle className="flex gap-2">
+          welcome back: <i className="text-sky-500 ">{user?.userName}</i>{" "}
+        </CardTitle>
       </CardHeader>
       <CardContent className="h-full p-1 space-y-2  overflow-auto">
         {users?.map((users, idx) => (
           <div
             key={idx}
             onClick={() => selectedUserId(users._id)}
-            className="flex w-full hover:bg-sky-500 transition-all   duration-300 rounded-lg p-2 gap-2 cursor-pointer"
+            className={`flex w-full hover:bg-sky-500 ${
+              slectId === users._id ? "bg-sky-500" : ""
+            } transition-all   duration-300 rounded-lg p-2 gap-2 cursor-pointer`}
           >
             <div>
               <img
