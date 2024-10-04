@@ -11,12 +11,14 @@ interface UserState {
   loading: boolean;
   error: string | null;
   users: User[] | null;
+  selectedUserId: null | string;
 }
 
 const initialState: UserState = {
   loading: false,
   error: null,
   users: null,
+  selectedUserId: null,
 };
 
 const UserSlice = createSlice({
@@ -34,7 +36,11 @@ const UserSlice = createSlice({
       state.loading = false;
       state.users = action.payload;
     },
+    selectedUser: (state, action: PayloadAction<string>) => {
+      state.selectedUserId = action.payload;
+    },
   },
 });
-export const { userFailure, userStart, userSuccess } = UserSlice.actions;
+export const { userFailure, userStart, userSuccess, selectedUser } =
+  UserSlice.actions;
 export default UserSlice.reducer;

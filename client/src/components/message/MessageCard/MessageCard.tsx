@@ -11,11 +11,12 @@ import { useLogOut } from "@/hooks/useLogOut.hook";
 import { RootState } from "@/redux/store";
 import { LogOut } from "lucide-react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectedUser } from "@/redux/reducers/allUsers.reducer";
 
 const MessageCard = () => {
   const { logOut } = useLogOut();
-
+  const dispatch = useDispatch();
   const handleLogOut = () => {
     logOut();
   };
@@ -29,6 +30,10 @@ const MessageCard = () => {
     fetchAllUser(token);
   }, [token]);
 
+  const selectedUserId = (id: string) => {
+    dispatch(selectedUser(id));
+  };
+
   return (
     <Card className="w-full h-full bg-transparent border border-r shadow-lg  text- flex flex-col ">
       <CardHeader>
@@ -39,7 +44,9 @@ const MessageCard = () => {
         {users?.map((users, idx) => (
           <div
             key={idx}
-            className="flex w-full hover:bg-sky-500 transition-all   duration-300 rounded-lg p-2 gap-2 cursor-pointer">
+            onClick={() => selectedUserId(users._id)}
+            className="flex w-full hover:bg-sky-500 transition-all   duration-300 rounded-lg p-2 gap-2 cursor-pointer"
+          >
             <div>
               <img
                 src={users?.profilePic}

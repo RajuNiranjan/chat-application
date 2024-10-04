@@ -1,3 +1,4 @@
+import ConversationCard from "@/components/Conversations/ConversationCard";
 import MessageCard from "@/components/message/MessageCard/MessageCard";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -9,7 +10,9 @@ const Home = () => {
           <div className="w-[40%] h-full">
             <MessageCard />
           </div>
-          <div className="w-[60%]"></div>
+          <div className="w-[60%] h-full ">
+            <ConversationCard />
+          </div>
         </CardContent>
       </Card>
     </div>
