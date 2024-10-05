@@ -1,5 +1,5 @@
 import ConversationCard from "@/components/Conversations/ConversationCard";
-import MessageCard from "@/components/message/MessageCard/MessageCard";
+import MessageCard from "@/components/message/MessageCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { RootState } from "@/redux/store";
 
