@@ -12,7 +12,7 @@ const ConversationInputForm = () => {
   const { sendMessage } = useSendMessage();
   const { loading } = useSelector((state: RootState) => state.message);
   const token = localStorage.getItem("token");
-  const { selectedUserId } = useSelector((state: RootState) => state.users);
+  const { selectedUser } = useSelector((state: RootState) => state.users);
 
   const { fetchConversations } = useFetchConversations();
 
@@ -21,8 +21,8 @@ const ConversationInputForm = () => {
     await sendMessage(message);
     setMessage("");
 
-    if (token && selectedUserId) {
-      await fetchConversations({ token, selectedUserId });
+    if (token && selectedUser) {
+      await fetchConversations({ token, selectedUserId: selectedUser._id });
     }
   };
 

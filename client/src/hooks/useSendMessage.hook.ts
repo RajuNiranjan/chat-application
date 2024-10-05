@@ -10,7 +10,7 @@ import {
 
 export const useSendMessage = () => {
   const token = localStorage.getItem("token");
-  const { selectedUserId } = useSelector((state: RootState) => state.users);
+  const { selectedUser } = useSelector((state: RootState) => state.users);
   const dispatch = useDispatch();
 
   const sendMessage = async (message: string) => {
@@ -18,7 +18,7 @@ export const useSendMessage = () => {
     dispatch(messageStart());
     try {
       const res = await axios.post(
-        `/api/message/send/${selectedUserId}`,
+        `/api/message/send/${selectedUser?._id}`,
         { message },
         {
           headers: {

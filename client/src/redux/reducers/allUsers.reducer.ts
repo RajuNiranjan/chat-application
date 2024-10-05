@@ -4,21 +4,25 @@ interface User {
   _id: string;
   userName: string;
   fullName: string;
+  gender: string;
   profilePic: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 interface UserState {
   loading: boolean;
   error: string | null;
   users: User[] | null;
-  selectedUserId: null | string;
+  selectedUser: null | User;
 }
 
 const initialState: UserState = {
   loading: false,
   error: null,
   users: null,
-  selectedUserId: null,
+  selectedUser: null,
 };
 
 const UserSlice = createSlice({
@@ -36,11 +40,11 @@ const UserSlice = createSlice({
       state.loading = false;
       state.users = action.payload;
     },
-    selectedUser: (state, action: PayloadAction<string>) => {
-      state.selectedUserId = action.payload;
+    selectedUserData: (state, action: PayloadAction<User>) => {
+      state.selectedUser = action.payload;
     },
     unSelectedUser: (state) => {
-      state.selectedUserId = null;
+      state.selectedUser = null;
     },
   },
 });
@@ -48,7 +52,7 @@ export const {
   userFailure,
   userStart,
   userSuccess,
-  selectedUser,
+  selectedUserData,
   unSelectedUser,
 } = UserSlice.actions;
 export default UserSlice.reducer;

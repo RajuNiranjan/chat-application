@@ -16,11 +16,13 @@ import { useEffect, useRef } from "react";
 import MessageSkeleton from "@/skeleton/message.skeleton";
 
 const ConversationCard = () => {
-  const { selectedUserId, users } = useSelector(
+  const { users, selectedUser } = useSelector(
     (state: RootState) => state.users
   );
 
-  const selectedUserData = users?.find((user) => user._id === selectedUserId);
+  const selectedUserData = users?.find(
+    (user) => user._id === selectedUser?._id
+  );
 
   const dispatch = useDispatch();
 
@@ -40,18 +42,21 @@ const ConversationCard = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (token && selectedUserId && !isFetchingRef.current) {
+      if (token && selectedUser?._id && !isFetchingRef.current) {
         isFetchingRef.current = true;
 
         try {
-          await fetchConversations({ token, selectedUserId });
+          await fetchConversations({
+            token,
+            selectedUserId: selectedUser?._id,
+          });
         } finally {
           isFetchingRef.current = false;
         }
       }
     };
     fetch();
-  }, [token, selectedUserId, fetchConversations]);
+  }, [token, selectedUser, fetchConversations]);
 
   return (
     <Card className="w-full h-full bg-transparent border-none shadow-none  text- flex flex-col ">

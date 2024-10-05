@@ -6,7 +6,7 @@ import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { selectedUserId } = useSelector((state: RootState) => state.users);
+  const { selectedUser } = useSelector((state: RootState) => state.users);
   const { user } = useSelector((state: RootState) => state.auth);
 
   return (
@@ -17,7 +17,7 @@ const Home = () => {
             <MessageCard />
           </div>
           <div className="w-[60%] h-full ">
-            {selectedUserId ? (
+            {selectedUser ? (
               <ConversationCard />
             ) : (
               <div className="h-full flex justify-center items-center opacity-50 flex-col">

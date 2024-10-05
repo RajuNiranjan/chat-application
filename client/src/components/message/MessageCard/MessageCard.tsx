@@ -11,7 +11,7 @@ import { RootState } from "@/redux/store";
 import { LogOut } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedUser } from "@/redux/reducers/allUsers.reducer";
+import { selectedUserData } from "@/redux/reducers/allUsers.reducer";
 import ChatSkeleton from "@/skeleton/chat.skeleton";
 
 const MessageCard = () => {
@@ -21,11 +21,9 @@ const MessageCard = () => {
     logOut();
   };
 
-  const {
-    users,
-    selectedUserId: slectId,
-    loading,
-  } = useSelector((state: RootState) => state.users);
+  const { users, selectedUser, loading } = useSelector(
+    (state: RootState) => state.users
+  );
   const { user } = useSelector((state: RootState) => state.auth);
   const token = localStorage.getItem("token");
 
@@ -36,11 +34,14 @@ const MessageCard = () => {
   }, [token]);
 
   const selectedUserId = (id: string) => {
-    dispatch(selectedUser(id));
+    const selectedUserInfo = users?.find((user) => user._id === id);
+    if (selectedUserInfo) {
+      dispatch(selectedUserData(selectedUserInfo));
+    }
   };
 
   return (
-    <Card className="w-full h-full bg-transparent border border-r shadow-lg  text- flex flex-col ">
+    <Card className="w-full h-full bg-transparent border border-r shadow-lg text flex flex-col ">
       <CardHeader>
         <CardTitle className="flex gap-2">
           welcome back: <i className="text-sky-500 ">{user?.userName}</i>{" "}
@@ -54,8 +55,8 @@ const MessageCard = () => {
                 key={idx}
                 onClick={() => selectedUserId(users._id)}
                 className={`flex w-full hover:bg-sky-500 ${
-                  slectId === users._id ? "bg-sky-500" : ""
-                } transition-all   duration-300 rounded-lg p-2 gap-2 cursor-pointer`}
+                  selectedUser?._id === users._id ? "bg-sky-500" : ""
+                } transition-all text-white  duration-300 rounded-lg p-2 gap-2 cursor-pointer`}
               >
                 <div>
                   <img
