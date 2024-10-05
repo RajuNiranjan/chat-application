@@ -11,6 +11,9 @@ import { RootState } from "@/redux/store";
 import ConversationChat from "./conversationChat";
 import { ArrowLeft } from "lucide-react";
 import { unSelectedUser } from "@/redux/reducers/allUsers.reducer";
+import { useFetchConversations } from "@/hooks/useFetchConversations";
+import { useEffect, useRef } from "react";
+import MessageSkeleton from "@/skeleton/message.skeleton";
 
 const ConversationCard = () => {
   const { selectedUserId, users } = useSelector(
@@ -24,6 +27,31 @@ const ConversationCard = () => {
   const back = () => {
     dispatch(unSelectedUser());
   };
+
+  const { messages, loading } = useSelector(
+    (state: RootState) => state.conversation
+  );
+
+  const token = localStorage.getItem("token");
+
+  const { fetchConversations } = useFetchConversations();
+
+  const isFetchingRef = useRef(false);
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (token && selectedUserId && !isFetchingRef.current) {
+        isFetchingRef.current = true;
+
+        try {
+          await fetchConversations({ token, selectedUserId });
+        } finally {
+          isFetchingRef.current = false;
+        }
+      }
+    };
+    fetch();
+  }, [token, selectedUserId, fetchConversations]);
 
   return (
     <Card className="w-full h-full bg-transparent border-none shadow-none  text- flex flex-col ">
@@ -48,7 +76,17 @@ const ConversationCard = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="h-full p-1 space-y-2  overflow-auto">
-        <ConversationChat />
+        {messages === undefined ? (
+          <div className="h-full flex justify-center items-center">
+            sent a message
+          </div>
+        ) : loading ? (
+          [...Array(6)].map((_, idx) => <MessageSkeleton key={idx} />)
+        ) : (
+          messages.map((msg, idx) => (
+            <ConversationChat key={idx} messages={msg} />
+          ))
+        )}
       </CardContent>
       <CardFooter className="w-full">
         <ConversationInputForm />

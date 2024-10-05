@@ -5,16 +5,25 @@ import { Button } from "../ui/button";
 import { useSendMessage } from "@/hooks/useSendMessage.hook";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import { useFetchConversations } from "@/hooks/useFetchConversations";
 
 const ConversationInputForm = () => {
   const [message, setMessage] = useState<string>("");
   const { sendMessage } = useSendMessage();
   const { loading } = useSelector((state: RootState) => state.message);
+  const token = localStorage.getItem("token");
+  const { selectedUserId } = useSelector((state: RootState) => state.users);
+
+  const { fetchConversations } = useFetchConversations();
 
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await sendMessage(message);
     setMessage("");
+
+    if (token && selectedUserId) {
+      await fetchConversations({ token, selectedUserId });
+    }
   };
 
   return (
