@@ -24,7 +24,8 @@ export const useFetchConversations = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      dispatch(conversationSuccess(res.data.messages));
+
+      dispatch(conversationSuccess(res.data.messages || []));
     } catch (error) {
       dispatch(conversationFailure((error as Error).message));
       console.log(error);

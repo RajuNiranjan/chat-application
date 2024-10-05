@@ -76,7 +76,7 @@ const ConversationCard = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="h-full p-1 space-y-2  overflow-auto">
-        {messages === undefined ? (
+        {messages.length === 0 ? (
           <div className="h-full flex justify-center items-center">
             sent a message
           </div>

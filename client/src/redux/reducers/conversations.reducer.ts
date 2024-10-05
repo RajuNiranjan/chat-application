@@ -10,7 +10,7 @@ export interface Message {
 }
 
 interface MessageState {
-  messages: Message[];
+  messages: Message[] | [];
   loading: boolean;
   error: null | string;
 }
