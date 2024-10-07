@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedUserData } from "@/redux/reducers/allUsers.reducer";
 import ChatSkeleton from "@/skeleton/chat.skeleton";
+import { useSocket } from "@/hooks/useSocket.hook";
 
 const MessageCard = () => {
   const { logOut } = useLogOut();
@@ -21,11 +22,15 @@ const MessageCard = () => {
     logOut();
   };
 
+  useSocket();
+
   const { users, selectedUser, loading } = useSelector(
     (state: RootState) => state.users
   );
   const { user } = useSelector((state: RootState) => state.auth);
   const token = localStorage.getItem("token");
+
+  const { onlineUsers } = useSelector((state: RootState) => state.socket);
 
   const { fetchAllUser } = useFetchAllUsers();
 
@@ -58,11 +63,17 @@ const MessageCard = () => {
                   selectedUser?._id === users._id ? "bg-sky-500" : ""
                 } transition-all text-white  duration-300 rounded-lg p-2 gap-2 cursor-pointer`}
               >
-                <div>
+                <div className="relative">
                   <img
                     src={users?.profilePic}
                     alt="uses_pic"
                     className="w-10 h-10 rounded-full"
+                  />
+                  <span
+                    className={`absolute right-0 bottom-0 h-3 w-3 rounded-full 
+                      ${
+                        onlineUsers.includes(users._id) && "bg-green-500 border"
+                      }`}
                   />
                 </div>
                 <div>{users?.userName}</div>
@@ -70,7 +81,7 @@ const MessageCard = () => {
             ))}
       </CardContent>
       <CardFooter className="flex justify-end">
-        <LogOut onClick={handleLogOut} className="cursor-pointer " />
+        <LogOut onClick={handleLogOut} className="cursor-pointer text-white " />
       </CardFooter>
     </Card>
   );

@@ -5,8 +5,8 @@ import cors from "cors";
 import { AuthRouter } from "./routes/auth.route.js";
 import { MessageRoute } from "./routes/message.route.js";
 import { UserRouter } from "./routes/user.route.js";
+import { app, server } from "./socket/socket.js";
 
-const app = express();
 const PORT = ENV_VAR.PORT || 5000;
 
 app.use(express.json());
@@ -29,4 +29,4 @@ app.use("/api/auth", AuthRouter);
 app.use("/api", UserRouter);
 app.use("/api/message", MessageRoute);
 
-app.listen(PORT, () => console.log(`server running at port no: ${PORT}`));
+server.listen(PORT, () => console.log(`server running at port no: ${PORT}`));
